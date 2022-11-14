@@ -9,7 +9,7 @@ Nous allons programmer une classe de personnage très simple qui permet d'effect
 ## Armes des personnages
 ### `game.Weapon`
 
-On veut une classe qui représente une arme. Une arme possède un nom, un niveau d'attaque et un niveau minimal pour l'utiliser.
+On veut une classe qui représente une arme. Une arme possède un nom, un niveau d'attaque et un niveau de personnage minimal pour l'utiliser.
 
 Le nom ne peut pas être changé.
 
@@ -33,8 +33,8 @@ On a une méthode `compute_damage` qui calcule les dégâts infligés à un autr
 <img src="doc/assets/dmg_eq.png" width="600">
 
 Où *a* est l'attaquant et *d* est le défendeur. <br>
-*crit* est 2 environ 1/16 (6.25%) du temps, 1 sinon <br>
-*random* est un nombre aléatoire entre 85% et 100%
+*crit* est égal à 2 environ 1/16 (6.25%) du temps, 1 sinon <br>
+*random* est un nombre réel aléatoire entre 85% et 100%
 
 ## Déroulement d'un combat
 
@@ -61,7 +61,7 @@ Gämmor used Deku Stick
 
 ### `game.run_battle()`
 
-La fonction prend en paramètre le personnage attaquant et le personnage défendeur (dans cet ordre) et exécute les attaques entre les personnages, tour-à-tour, jusqu'à ce qu'un des deux meurt (HP à zéro). La fonctio retourne le nombre total de tours effectués.
+La fonction prend en paramètre le personnage attaquant et le personnage défendeur (dans cet ordre) et exécute les attaques entre les personnages, tour-à-tour, jusqu'à ce qu'un des deux meurt (HP à zéro). La fonction retourne le nombre total de tours effectués.
 
 Exemple :
 ```python
