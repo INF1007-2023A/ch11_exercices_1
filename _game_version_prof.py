@@ -5,6 +5,7 @@ import utils
 class Weapon:
     """
     Une arme dans le jeu.
+
     :param name: Le nom de l'arme
     :param power: Le niveau d'attaque
     :param min_level: Le niveau minimal pour l'utiliser
@@ -30,6 +31,7 @@ class Weapon:
 class Character:
     """
     Un personnage dans le jeu
+
     :param name: Le nom du personnage
     :param max_hp: HP maximum
     :param attack: Le niveau d'attaque du personnage
