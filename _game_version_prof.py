@@ -82,10 +82,10 @@ class Character:
 	def hp(self, val):
 		self.__hp = utils.clamp(val, 0, self.max_hp)
 
-	def compute_damage(self, other: "Character"):
+	def compute_damage(self, target):
 		level_factor = (2 * self.level) / 5 + 2
 		weapon_factor = self.weapon.power
-		atk_def_factor = self.attack / other.defense
+		atk_def_factor = self.attack / target.defense
 		critical = random.random() <= 1 / 16
 		modifier = (2 if critical else 1) * random.uniform(0.85, 1.0)
 		damage = ((level_factor * weapon_factor * atk_def_factor) / 50 + 2) * modifier
