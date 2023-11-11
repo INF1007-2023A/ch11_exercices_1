@@ -22,7 +22,7 @@ class Weapon:
 	def name(self):
 		return self.__name
 
-	def is_wieldable_by(self, character):
+	def is_usable_by(self, character):
 		return character.level >= self.min_level
 
 	@classmethod
@@ -44,11 +44,11 @@ class Character:
 	def __init__(self, name, max_hp, attack, defense, level):
 		self.__name = name
 		self.__max_hp = max_hp
+		self.hp = max_hp
 		self.attack = attack
 		self.defense = defense
 		self.level = level
 		self.weapon = None
-		self.hp = max_hp
 
 	@property
 	def name(self):
@@ -64,6 +64,14 @@ class Character:
 		self.hp = self.hp
 
 	@property
+	def hp(self):
+		return self.__hp
+
+	@hp.setter
+	def hp(self, val):
+		self.__hp = utils.clamp(val, 0, self.max_hp)
+
+	@property
 	def weapon(self):
 		return self.__weapon
 
@@ -72,17 +80,9 @@ class Character:
 	def weapon(self, value):
 		if value is None:
 			value = Weapon.make_unarmed()
-		if not value.is_wieldable_by(self):
+		elif not value.is_usable_by(self):
 			raise ValueError(Weapon)
 		self.__weapon = value
-
-	@property
-	def hp(self):
-		return self.__hp
-
-	@hp.setter
-	def hp(self, val):
-		self.__hp = utils.clamp(val, 0, self.max_hp)
 
 	def compute_damage(self, other):
 		return Character.compute_damage_output(
