@@ -20,6 +20,12 @@ class Weapon:
 	"""
 
 	UNARMED_POWER = 20
+	
+	# TODO: __init__
+	
+	# TODO: Propriétés
+	
+	# TODO: make_unarmed
 
 
 class Character:
@@ -34,11 +40,19 @@ class Character:
 	"""
 
 
+
+
 def deal_damage(attacker, defender):
 	# TODO: Calculer dégâts
+	# TODO: Afficher le résultat
 	pass
 
 
 def run_battle(c1, c2):
-	# TODO: Initialiser attaquant/défendeur, tour, etc.
+	# TODO: Initialiser attaquant/défendeur, nb tours, etc.
+	# TODO: Pour toujours:
+		# TODO: Appliquer l'attaque
+		# TODO: Si le défendeur est mort, afficher un message et briser la boucle
+		# TODO: Incrémenter le nb de tours et échanger attaquant/défendeur
+	# TODO: Retourner nombre de tours effectués
 	pass
