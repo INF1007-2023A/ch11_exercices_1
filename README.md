@@ -27,6 +27,14 @@ Dans notre jeu, un personnage est composé des propriétés suivantes :
 `Character.weapon` : L'arme utilisée par le personnage <br>
 `Character.hp` : Les HP restants <br>
 
+Le nom ne peut pas être changé publiquement après l'initialisation.
+
+Le HP doit toujours rester dans l'intervalle [0, `max_hp`]
+
+Un changement au `max_hp` doit doit aussi changer le `hp` pour rester dans l'intervalle valide.
+
+Affecter `None` comme arme doit construire un *unarmed* en utilisant le `Weapon.make_unarmed`. Affecter une arme à un personnage qui n'a pas le niveau suffisant lève un `ValueError`.
+
 On a une méthode `compute_damage` qui calcule les dégâts infligés à un autre personnage (en paramètre). La formule est la suivante : 
 
 <img src="doc/assets/dmg_eq.png" width="600">

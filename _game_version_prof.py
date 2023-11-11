@@ -22,7 +22,9 @@ class Weapon:
 	def name(self):
 		return self.__name
 
-	# TODO: make_unarmed
+	def is_wieldable_by(self, character):
+		return character.level >= self.min_level
+
 	@classmethod
 	def make_unarmed(cls):
 		return cls("Unarmed", cls.UNARMED_POWER, 1)
@@ -70,7 +72,7 @@ class Character:
 	def weapon(self, value):
 		if value is None:
 			value = Weapon.make_unarmed()
-		if value.min_level > self.level:
+		if not value.is_wieldable_by(self):
 			raise ValueError(Weapon)
 		self.__weapon = value
 
@@ -82,14 +84,24 @@ class Character:
 	def hp(self, val):
 		self.__hp = utils.clamp(val, 0, self.max_hp)
 
-	def compute_damage(self, target):
-		level_factor = (2 * self.level) / 5 + 2
-		weapon_factor = self.weapon.power
-		atk_def_factor = self.attack / target.defense
-		critical = random.random() <= 1 / 16
-		modifier = (2 if critical else 1) * random.uniform(0.85, 1.0)
-		damage = ((level_factor * weapon_factor * atk_def_factor) / 50 + 2) * modifier
+	def compute_damage(self, other):
+		return Character.compute_damage_output(
+			self.level,
+			self.weapon.power,
+			self.attack,
+			other.defense,
+			1/16,
+			(0.85, 1.00)
+		)
 
+	@staticmethod
+	def compute_damage_output(level, power, attack, defense, crit_chance, random_range):
+		level_factor = (2 * level) / 5 + 2
+		weapon_factor = power
+		atk_def_factor = attack / defense
+		critical = random.random() <= crit_chance
+		modifier = (2 if critical else 1) * random.uniform(*random_range)
+		damage = ((level_factor * weapon_factor * atk_def_factor) / 50 + 2) * modifier
 		return int(round(damage)), critical
 
 
