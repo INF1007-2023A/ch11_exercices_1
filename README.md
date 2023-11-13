@@ -5,8 +5,7 @@
 
 Nous allons programmer une classe de personnage très simple qui permet d'effectuer des combats tour-à-tour dans un jeu.
 
-## Armes des personnages
-### `game.Weapon`
+## Armes des personnages (`character.Weapon`)
 
 On veut une classe qui représente une arme. Une arme possède un nom, un niveau d'attaque et un niveau de personnage minimal pour l'utiliser.
 
@@ -20,7 +19,7 @@ Où *a* est l'attaquant et *d* est le défendeur. <br>
 *crit* est égal à 2 environ 1/16 (6.25%) du temps, 1 sinon <br>
 *random* est un nombre réel aléatoire entre 85% et 100%
 
-Cette formule est implémentée dans la fonction globale `compute_damage_output` à laquelle on peut passer les différentes constantes de la formule comme la probabilité de *crit*.
+Cette formule est implémentée dans la fonction globale `utils.compute_damage_output` à laquelle on peut passer les différentes constantes de la formule comme la probabilité de coup critique.
 
 On a une méthode `is_usable_by` qui prend un personnage en paramètre et retourne vrai si le personnage peut utiliser l'arme (son niveau est >= au `min_level` de l'arme).
 
@@ -28,8 +27,7 @@ On a un méthode `use` qui prend un utilisateur de l'arme et un adversaire. Elle
 
 On veut une méthode de classe `make_unarmed` qui construit un `Weapon` nommé `"Unarmed"` avec une puissance de 20.
 
-## Personnages du jeu
-### `game.Character`
+## Personnages du jeu (`character.Character`)
 
 Dans notre jeu, un personnage est composé des propriétés suivantes :
 

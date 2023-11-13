@@ -9,6 +9,7 @@ import inspect
 import random
 
 from game import *
+from character import *
 
 
 class TestWeapon(unittest.TestCase):
