@@ -67,14 +67,14 @@ class TestCharacter(unittest.TestCase):
 	@mock.patch("random.random", new=lambda: 0.01)
 	@mock.patch("random.uniform", new=lambda a, b: 0.01)
 	def test_crit(self):
-		dmg, crit = self.foo.compute_damage(self.bar)
-		self.assertTrue(crit)
+		msg = self.foo.use_main_attack(self.bar)
+		self.assertIn("critical", msg.lower())
 
 	@mock.patch("random.random", new=lambda: 0.99)
 	@mock.patch("random.uniform", new=lambda a, b: 0.99)
 	def test_crit(self):
-		dmg, crit = self.foo.compute_damage(self.bar)
-		self.assertFalse(crit)
+		msg = self.foo.use_main_attack(self.bar)
+		self.assertNotIn("critical", msg.lower())
 
 
 if __name__ == '__main__':

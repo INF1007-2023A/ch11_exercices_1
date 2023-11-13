@@ -2,6 +2,16 @@ import random
 import utils
 
 
+def compute_damage_output(level, power, attack, defense, crit_chance, random_range):
+	level_factor = (2 * level) / 5 + 2
+	weapon_factor = power
+	atk_def_factor = attack / defense
+	critical = random.random() <= crit_chance
+	modifier = (2 if critical else 1) * random.uniform(*random_range)
+	damage = ((level_factor * weapon_factor * atk_def_factor) / 50 + 2) * modifier
+	return int(round(damage)), critical
+
+
 class Weapon:
 	"""
 	Une arme dans le jeu.
@@ -25,6 +35,25 @@ class Weapon:
 	def is_usable_by(self, character):
 		return character.level >= self.min_level
 
+	def use(self, user, opponent):
+		damage, crit = self.compute_damage(user, opponent)
+		opponent.hp -= damage
+		msg = ""
+		if crit:
+			msg += "Critical hit! "
+		msg += f"{opponent.name} took {damage} dmg"
+		return msg
+
+	def compute_damage(self, user, opponent):
+		return compute_damage_output(
+			user.level,
+			self.power,
+			user.attack,
+			opponent.defense,
+			1/16,
+			(0.85, 1.00)
+		)
+
 	@classmethod
 	def make_unarmed(cls):
 		return cls("Unarmed", cls.UNARMED_POWER, 1)
@@ -44,11 +73,11 @@ class Character:
 	def __init__(self, name, max_hp, attack, defense, level):
 		self.__name = name
 		self.__max_hp = max_hp
-		self.hp = max_hp
 		self.attack = attack
 		self.defense = defense
 		self.level = level
 		self.weapon = None
+		self.hp = max_hp
 
 	@property
 	def name(self):
@@ -80,56 +109,32 @@ class Character:
 	def weapon(self, value):
 		if value is None:
 			value = Weapon.make_unarmed()
-		elif not value.is_usable_by(self):
+		if value.min_level > self.level:
 			raise ValueError(Weapon)
 		self.__weapon = value
 
-	def compute_damage(self, other):
-		return Character.compute_damage_output(
-			self.level,
-			self.weapon.power,
-			self.attack,
-			other.defense,
-			1/16,
-			(0.85, 1.00)
-		)
-
-	@staticmethod
-	def compute_damage_output(level, power, attack, defense, crit_chance, random_range):
-		level_factor = (2 * level) / 5 + 2
-		weapon_factor = power
-		atk_def_factor = attack / defense
-		critical = random.random() <= crit_chance
-		modifier = (2 if critical else 1) * random.uniform(*random_range)
-		damage = ((level_factor * weapon_factor * atk_def_factor) / 50 + 2) * modifier
-		return int(round(damage)), critical
-
-
-def deal_damage(attacker: Character, defender: Character):
-	# TODO: Calculer dégâts
-	damage, crit = attacker.compute_damage(defender)
-	defender.hp -= damage
-	print(f"{attacker.name} used {attacker.weapon.name}")
-	if crit:
-		print("  Critical hit!")
-	print(f"  {defender.name} took {damage} dmg")
+	def use_main_attack(self, opponent):
+		msg = f"{self.name} used {self.weapon.name}\n"
+		msg += self.weapon.use(self, opponent)
+		return msg
 
 
 def run_battle(c1: Character, c2: Character):
 	# TODO: Initialiser attaquant/défendeur, tour, etc.
 	attacker = c1
 	defender = c2
-	turns = 1
-	print(f"{attacker.name} starts a battle with {defender.name}!")
+	num_turns  = 1
+	print(f"{attacker.name} starts a battle with {defender.name}!\n")
 	while True:
 		# TODO: Appliquer l'attaque
-		deal_damage(attacker, defender)
+		msg = attacker.use_main_attack(defender)
+		print(msg + "\n")
 		# TODO: Si le défendeur est mort
 		if defender.hp == 0:
 			print(f"{defender.name} is sleeping with the fishes.")
 			break
-		turns += 1
+		num_turns  += 1
 		# Échanger attaquant/défendeur
 		attacker, defender = defender, attacker
 	# TODO: Retourner nombre de tours effectués
-	return turns
+	return num_turns 

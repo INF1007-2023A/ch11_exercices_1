@@ -12,6 +12,20 @@ On veut une classe qui représente une arme. Une arme possède un nom, un niveau
 
 Le nom ne peut pas être changé.
 
+On a une méthode `compute_damage` qui calcule les dégâts infligés par un personnage utilisant l'arme à un autre personnage (en paramètres). La formule est la suivante : 
+
+<img src="doc/assets/dmg_eq.png" width="600">
+
+Où *a* est l'attaquant et *d* est le défendeur. <br>
+*crit* est égal à 2 environ 1/16 (6.25%) du temps, 1 sinon <br>
+*random* est un nombre réel aléatoire entre 85% et 100%
+
+Cette formule est implémentée dans la fonction globale `compute_damage_output` à laquelle on peut passer les différentes constantes de la formule comme la probabilité de *crit*.
+
+On a une méthode `is_usable_by` qui prend un personnage en paramètre et retourne vrai si le personnage peut utiliser l'arme (son niveau est >= au `min_level` de l'arme).
+
+On a un méthode `use` qui prend un utilisateur de l'arme et un adversaire. Elle calcule le dommage et l'applique au `hp` de l'opposant, puis retourne un message disant le dommage appliqué.
+
 On veut une méthode de classe `make_unarmed` qui construit un `Weapon` nommé `"Unarmed"` avec une puissance de 20.
 
 ## Personnages du jeu
@@ -35,40 +49,27 @@ Un changement au `max_hp` doit doit aussi changer le `hp` pour rester dans l'int
 
 Affecter `None` comme arme doit construire un *unarmed* en utilisant le `Weapon.make_unarmed`. Affecter une arme à un personnage qui n'a pas le niveau suffisant lève un `ValueError`.
 
-On a une méthode `compute_damage` qui calcule les dégâts infligés à un autre personnage (en paramètre). La formule est la suivante : 
+La méthode `use_main_attack` utilise l'arme du personnage (en appelant `Weapon.use`) à un adversaire passé en paramètre et retourne le message. Par exemple :
 
-<img src="doc/assets/dmg_eq.png" width="600">
-
-Où *a* est l'attaquant et *d* est le défendeur. <br>
-*crit* est égal à 2 environ 1/16 (6.25%) du temps, 1 sinon <br>
-*random* est un nombre réel aléatoire entre 85% et 100%
-
-## Déroulement d'un combat
-
-### `game.deal_damage()`
-
-La fonction prend en paramètre le personnage attaquant et le personnage défendeur (dans cet ordre), calcule et applique le dommage, puis affiche ce qui s'est passé.
-
-Exemple:
 ```python
 c1 = Character("Äpik", 200, 150, 70, 70)
 c2 = Character("Gämmor", 250, 100, 120, 60)
-
 c1.weapon = Weapon("BFG", 100, 69)
-c2.weapon = Weapon("Deku Stick", 120, 1)
-
-deal_damage(c1, c2)
+print(c1.use_main_attack(c2))
+```
+Pourrait donner la sortie:
+```
+Äpik used BFG
+Critical hit! Gämmor took 132 dmg
 ```
 
-Sortie :
-```
-Gämmor used Deku Stick
-  Äpik took 86 dmg
-```
+## Déroulement d'un combat
 
 ### `game.run_battle()`
 
 La fonction prend en paramètre le personnage attaquant et le personnage défendeur (dans cet ordre) et exécute les attaques entre les personnages, tour-à-tour, jusqu'à ce qu'un des deux meurt (HP à zéro). La fonction retourne le nombre total de tours effectués.
+
+C'est la méthode `Character.use_main_attack` qui applique le dommage et qui nous donne le message à afficher à chaque tour.
 
 Exemple :
 ```python
@@ -84,19 +85,20 @@ print(f"The battle ended in {turns} turns.")
 
 Sortie :
 ```
-Äpik starts a battle with Gämmor!
+Äpik starts a battle with Gämmör!
+
 Äpik used BFG
-  Gämmor took 70 dmg
-Gämmor used Deku Stick
-  Äpik took 82 dmg
+Gämmör took 70 dmg
+
+Gämmör used Deku Stick
+Äpik took 80 dmg
+
 Äpik used BFG
-  Gämmor took 69 dmg
-Gämmor used Deku Stick
-  Äpik took 91 dmg
-Äpik used BFG
-  Gämmor took 67 dmg
-Gämmor used Deku Stick
-  Äpik took 83 dmg
+Gämmör took 71 dmg
+
+Gämmör used Deku Stick
+Critical hit! Äpik took 178 dmg
+
 Äpik is sleeping with the fishes.
-The battle ended in 6 turns.
+The battle ended in 4 turns.
 ```
