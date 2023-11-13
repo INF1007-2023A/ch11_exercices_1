@@ -105,7 +105,7 @@ class Character:
 	def weapon(self, value):
 		if value is None:
 			value = Weapon.make_unarmed()
-		if value.min_level > self.level:
+		if not value.is_usable_by(self):
 			raise ValueError(Weapon)
 		self.__weapon = value
 
