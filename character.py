@@ -45,7 +45,7 @@ class Character:
 	
 	# TODO: Propriétés
 
-	def use_main_attack(self, opponent):
+	def apply_turn(self, opponent):
 		msg = f"{self.name} used {self.weapon.name}\n"
 		msg += self.weapon.use(self, opponent)
 		return msg

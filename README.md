@@ -47,13 +47,13 @@ Un changement au `max_hp` doit doit aussi changer le `hp` pour rester dans l'int
 
 Affecter `None` comme arme doit construire un *unarmed* en utilisant le `Weapon.make_unarmed`. Affecter une arme à un personnage qui n'a pas le niveau suffisant lève un `ValueError`.
 
-La méthode `use_main_attack` utilise l'arme du personnage (en appelant `Weapon.use`) à un adversaire passé en paramètre et retourne le message. Par exemple :
+La méthode `apply_turn` utilise l'arme du personnage (en appelant `Weapon.use`) à un adversaire passé en paramètre et retourne le message. Par exemple :
 
 ```python
 c1 = Character("Äpik", 200, 150, 70, 70)
 c2 = Character("Gämmor", 250, 100, 120, 60)
 c1.weapon = Weapon("BFG", 100, 69)
-print(c1.use_main_attack(c2))
+print(c1.apply_turn(c2))
 ```
 Pourrait donner la sortie:
 ```
@@ -67,7 +67,7 @@ Critical hit! Gämmor took 132 dmg
 
 La fonction prend en paramètre le personnage attaquant et le personnage défendeur (dans cet ordre) et exécute les attaques entre les personnages, tour-à-tour, jusqu'à ce qu'un des deux meurt (HP à zéro). La fonction retourne le nombre total de tours effectués.
 
-C'est la méthode `Character.use_main_attack` qui applique le dommage et qui nous donne le message à afficher à chaque tour.
+C'est la méthode `Character.apply_turn` qui applique le dommage et qui nous donne le message à afficher à chaque tour.
 
 Exemple :
 ```python

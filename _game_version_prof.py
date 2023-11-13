@@ -18,7 +18,7 @@ def run_battle(c1: Character, c2: Character):
 	print(f"{attacker.name} starts a battle with {defender.name}!\n")
 	while True:
 		# Appliquer l'attaque
-		msg = attacker.use_main_attack(defender)
+		msg = attacker.apply_turn(defender)
 		print(msg + "\n")
 		# Si le défendeur est mort
 		if defender.hp == 0:
