@@ -23,7 +23,7 @@ Cette formule est implémentée dans la fonction globale `utils.compute_damage_o
 
 On a une méthode `is_usable_by` qui prend un personnage en paramètre et retourne vrai si le personnage peut utiliser l'arme (son niveau est >= au `min_level` de l'arme).
 
-On a un méthode `use` qui prend un utilisateur de l'arme et un adversaire. Elle calcule le dommage et l'applique au `hp` de l'opposant, puis retourne un message disant le dommage appliqué.
+On a une méthode `use` qui prend un utilisateur de l'arme et un adversaire. Elle calcule le dommage et l'applique au `hp` de l'opposant, puis retourne un message disant le dommage appliqué.
 
 On veut une méthode de classe `make_unarmed` qui construit un `Weapon` nommé `"Unarmed"` avec une puissance de 20.
 
@@ -61,9 +61,7 @@ Pourrait donner la sortie:
 Critical hit! Gämmor took 132 dmg
 ```
 
-## Déroulement d'un combat
-
-### `game.run_battle()`
+## Déroulement d'un combat (`game.run_battle`)
 
 La fonction prend en paramètre le personnage attaquant et le personnage défendeur (dans cet ordre) et exécute les attaques entre les personnages, tour-à-tour, jusqu'à ce qu'un des deux meurt (HP à zéro). La fonction retourne le nombre total de tours effectués.
 

@@ -1,4 +1,5 @@
-from _game_version_prof import *
+from game import *
+from _character_version_prof import *
 
 
 def main():
