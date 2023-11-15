@@ -24,6 +24,14 @@ class Weapon:
 	# TODO: Propriétés
 
 	# TODO: use
+	def use(self, user, opponent):
+		# TODO: Caculer et appliquer le dommage en utilisant la méthode compute_damage
+		#damage, crit = ...
+		msg = ""
+		if crit:
+			msg += "Critical hit! "
+		msg += f"{opponent.name} took {damage} dmg"
+		return msg
 
 	# TODO: compute_damage
 
